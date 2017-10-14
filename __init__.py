@@ -5,7 +5,7 @@ from mapsapi import Geocoding
 import logging
 import country_codes
 
-GEOCODER = Geocoding("GOOGLE GEOCODING API KEY")
+GEOCODER = Geocoding("AIzaSyB80EH6gdj5n7C135PilDzLhNtGrsIUtmQ")
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
@@ -58,7 +58,6 @@ def inline(bot, update):
             results.insert(0, loc)
     else:
         locations = GEOCODER.format_output(query)
-        print(locations)
         results = []
         for res in locations:
             results.append(InlineQueryResultLocation(id=hash(res[0]), latitude=res[1], longitude=res[2], title=res[0]))
@@ -71,13 +70,14 @@ def inline(bot, update):
 
 def start(bot, update):
     text = "Use this bot in inline mode to search a location. You can search for countries, cities or addresses.\n\n" \
-           "<i>Example: @inlinemapsbot Cairo</i>"
+           "<i>Example: @inlinemapsbot Cairo</i>\n\n" \
+           "Source: https://github.com/code1mountain/InlineMapsBot/"
     keyboard = [[InlineKeyboardButton("Use Inline", switch_inline_query="")]]
     bot.send_message(chat_id=update.effective_chat.id, text=text, reply_markup=InlineKeyboardMarkup(keyboard),
                      parse_mode="HTML")
 
 
-updater = Updater("TOKEN")
+updater = Updater("458202590:AAFM3jNhS9czFG57bmyOoYClxIaGuE-KMlM")
 updater.dispatcher.add_handler(InlineQueryHandler(inline))
 updater.dispatcher.add_handler(CommandHandler("start", start))
 updater.start_polling()
